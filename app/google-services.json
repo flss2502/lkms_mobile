@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "240082740183",
+    "project_id": "lkmsmobile",
+    "storage_bucket": "lkmsmobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240082740183:android:51132fec093dc3b9c9a192",
+        "android_client_info": {
+          "package_name": "com.example.lkms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD65caLZo74qFHQmx4zzCfPvjMZatPccjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
