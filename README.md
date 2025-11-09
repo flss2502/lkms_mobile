@@ -133,7 +133,7 @@ Sử dụng phiên bản Android Studio Iguana hoặc mới hơn.
 
 * **[Xuanbinh]** — Nhà phát triển duy nhất của dự án.
 * 🔗 [GitHub](https://github.com/flss2502)
-* 🔗 [LinkedIn](https://linkedin.com/in/flss2502)
+* 🔗 [LinkedIn](https://linkedin.com/in/binhdx)
 
 ---
 
