@@ -94,7 +94,7 @@ Mục tiêu của dự án là minh họa khả năng xây dựng một ứng d�
 
 ### 1️⃣ Clone Repository
 ```bash
-git clone https://[your-repository-url].git
+git clone https://github.com/flss2502/lkms_mobile.git
 ```
 
 ### 2️⃣ Mở bằng Android Studio
