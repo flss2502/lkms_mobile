@@ -1,0 +1,45 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardContainer"
+    android:layout_width="180dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:backgroundTint="@android:color/white"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_card_gradient">
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Experiment Name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#222"
+            android:paddingBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textColor="#666"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/textDue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Due date"
+            android:textColor="#999"
+            android:textSize="12sp"
+            android:paddingTop="4dp"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

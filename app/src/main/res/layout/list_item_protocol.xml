@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Icon (PDF, Word, HTML) -->
+        <ImageView
+            android:id="@+id/icon_protocol_type"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/pdf"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/pdf" />
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/text_protocol_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon_protocol_type"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="SOP: Vận hành máy ly tâm" />
+
+        <!-- Phiên bản (Version) -->
+        <TextView
+            android:id="@+id/text_protocol_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintStart_toStartOf="@+id/text_protocol_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_protocol_title"
+            tools:text="Phiên bản: 1" />
+
+        <!-- Kiểu file (MimeType) -->
+        <TextView
+            android:id="@+id/text_protocol_mimetype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textStyle="italic"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/text_protocol_version"
+            app:layout_constraintTop_toTopOf="@+id/text_protocol_version"
+            tools:text="application/pdf" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

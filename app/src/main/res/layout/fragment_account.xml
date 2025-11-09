@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_mix"
+    tools:context=".ui.account.AccountFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Card 1: Thông tin người dùng -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="?attr/colorSurface">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <!-- Ảnh đại diện -->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_account_avatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_account_circle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:strokeColor="?attr/colorPrimary"
+                    app:strokeWidth="2dp" />
+
+                <!-- Tên người dùng -->
+                <TextView
+                    android:id="@+id/text_account_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="#222"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/image_account_avatar"
+                    app:layout_constraintTop_toTopOf="@id/image_account_avatar"
+                    tools:text="Nguyen Van A" />
+
+                <!-- Email -->
+                <TextView
+                    android:id="@+id/text_account_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#555"
+                    app:drawableStartCompat="@drawable/mail_24px"
+                    app:drawableTint="?attr/colorSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/text_account_name"
+                    app:layout_constraintTop_toBottomOf="@id/text_account_name"
+                    tools:text="nguyenvana@google.com" />
+
+                <!-- Vai trò (Role) -->
+                <TextView
+                    android:id="@+id/text_account_role"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#555"
+                    app:drawableStartCompat="@drawable/ic_shield_person"
+                    app:drawableTint="?attr/colorSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/text_account_name"
+                    app:layout_constraintTop_toBottomOf="@id/text_account_email"
+                    tools:text="Vai trò: Manager" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Card 2: Cài đặt ứng dụng -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="?attr/colorSurface">
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Card 3: Quản lý Tài khoản -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="?attr/colorSurface">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quản lý Tài khoản"
+                    android:textSize="20sp"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Nút Quản lý Google -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_manage_google"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Quản lý tài khoản Google"
+                    android:textAlignment="viewStart"
+                    android:textColor="?attr/colorOnSurface"
+                    app:icon="@drawable/google"
+                    app:iconSize="18dp"
+                    app:iconTint="@null"/>
+
+                <!-- Nút Xóa tài khoản (khỏi app) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_delete_account"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Xóa tài khoản khỏi ứng dụng"
+                    android:textAlignment="viewStart"
+                    android:textColor="?attr/colorError"
+                    app:icon="@drawable/delete_forever_24px"
+                    app:iconTint="?attr/colorError" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

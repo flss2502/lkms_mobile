@@ -6,15 +6,45 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/dashboard"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/nav_protocol"
+            android:icon="@drawable/protocol"
+            android:title="@string/menu_protocol" />
+
+        <item android:id="@+id/nav_notebook"
+            android:icon="@drawable/note_add"
+            android:title="@string/menu_labnote" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_inventory"
+            android:icon="@drawable/inventory_2_24px"
+            android:title="@string/menu_inventory" />
+
+        <item
+            android:id="@+id/nav_labnote"
+            android:icon="@drawable/note_alt_24px"
+            android:title="@string/menu_notebook" />
+
+        <item
+            android:id="@+id/nav_booking"
+            android:icon="@drawable/calendar_month_24px"
+            android:title="@string/menu_booking" />
     </group>
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_myaccount"
+                android:icon="@drawable/account_circle_24px"
+                android:title="Tài khoản" />
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/logout"
+                android:title="Đăng xuất" />
+        </menu>
+    </item>
 </menu>

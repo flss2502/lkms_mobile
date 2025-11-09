@@ -1,6 +1,6 @@
 package com.example.lkms.data;
 
-import com.example.lkms.data.model.LoggedInUser;
+import com.example.lkms.data.models.LoggedInUser;
 
 import java.io.IOException;
 

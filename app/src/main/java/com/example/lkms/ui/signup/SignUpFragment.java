@@ -28,12 +28,20 @@ import com.example.lkms.databinding.FragmentSignUpBinding;
 import com.example.lkms.R;
 import com.example.lkms.ui.login.LoggedInUserView;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+
 public class SignUpFragment extends Fragment {
 
     private SignUpViewModel signUpViewModel;
 
-    // SỬA LẠI TẠI ĐÂY:
     private FragmentSignUpBinding binding;
+    private FirebaseAuth mAuth;
 
     @Nullable
     @Override
@@ -49,6 +57,9 @@ public class SignUpFragment extends Fragment {
 
         // Khởi tạo ViewModel (Giữ nguyên)
         signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
+
+        FirebaseApp.initializeApp(requireContext());
+        mAuth = FirebaseAuth.getInstance();
 
         // Lấy các view từ binding (Code này đã khớp 100% với ID trong XML của bạn)
         final EditText firstNameEditText = binding.firstNameEdittext;
@@ -162,20 +173,6 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        // Xử lý sự kiện nút "Sign Up" (Giữ nguyên)
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // loadingProgressBar.setVisibility(View.VISIBLE); // ViewModel tự xử lý việc này
-                signUpViewModel.signUp(
-                        firstNameEditText.getText().toString().trim(),
-                        lastNameEditText.getText().toString().trim(),
-                        emailEditText.getText().toString().trim(),
-                        passwordEditText.getText().toString(),
-                        confirmPasswordEditText.getText().toString()
-                );
-            }
-        });
 
         // Các sự kiện click khác (Giữ nguyên)
         binding.backButton.setOnClickListener(v -> {
@@ -192,7 +189,82 @@ public class SignUpFragment extends Fragment {
         binding.googleSignUpButton.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Google Sign Up Clicked", Toast.LENGTH_SHORT).show();
         });
+        signUpButton.setOnClickListener(v -> {
+            String firstName = firstNameEditText.getText().toString().trim();
+            String lastName = lastNameEditText.getText().toString().trim();
+            String email = emailEditText.getText().toString().trim();
+            String password = passwordEditText.getText().toString();
+
+            if (!signUpButton.isEnabled()) return;
+
+            loadingProgressBar.setVisibility(View.VISIBLE);
+            handleFirebaseSignUp(firstName, lastName, email, password);
+        });
+
+        // Back
+        binding.backButton.setOnClickListener(v -> {
+            if (getActivity() != null) getActivity().getOnBackPressedDispatcher().onBackPressed();
+        });
+
+        // Chuyển sang login
+        binding.logInLink.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(v);
+            navController.navigate(R.id.action_signUpFragment_to_loginFragment);
+        });
+
+        binding.googleSignUpButton.setOnClickListener(v ->
+                Toast.makeText(getContext(), "Google Sign Up Clicked", Toast.LENGTH_SHORT).show());
     }
+
+    private void handleFirebaseSignUp(String firstName, String lastName, String email, String password) {
+        ProgressBar loading = binding.loading;
+        Button signUpButton = binding.signUpButton;
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(requireActivity(), task -> {
+                    loading.setVisibility(View.GONE);
+                    signUpButton.setEnabled(true);
+
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            // ✅ Cập nhật tên hiển thị
+                            user.updateProfile(new com.google.firebase.auth.UserProfileChangeRequest.Builder()
+                                    .setDisplayName(firstName + " " + lastName)
+                                    .build());
+
+                            // ✅ Gửi email xác thực
+                            user.sendEmailVerification()
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            Toast.makeText(
+                                                    getContext(),
+                                                    "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.",
+                                                    Toast.LENGTH_LONG
+                                            ).show();
+                                        } else {
+                                            Toast.makeText(
+                                                    getContext(),
+                                                    "Không thể gửi email xác thực. Vui lòng thử lại sau.",
+                                                    Toast.LENGTH_LONG
+                                            ).show();
+                                        }
+
+                                        // Sau khi gửi email, điều hướng về Login
+                                        NavController navController = Navigation.findNavController(requireView());
+                                        navController.navigate(R.id.action_signUpFragment_to_loginFragment);
+                                    });
+                        } else {
+                            Toast.makeText(getContext(), "Không thể lấy thông tin người dùng.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        String errorMsg = task.getException() != null ?
+                                task.getException().getMessage() : "Đăng ký thất bại!";
+                        Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
 
     private void updateUiOnSuccess(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();

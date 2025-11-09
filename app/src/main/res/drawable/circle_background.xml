@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <!-- Màu nền của hình tròn -->
+    <solid android:color="@color/teal_200" />
+
+    <!-- Viền xung quanh (nếu muốn có viền trắng nhẹ) -->
+    <stroke
+        android:width="2dp"
+        android:color="@android:color/white" />
+
+    <!-- Kích thước tối thiểu (tuỳ chọn) -->
+    <size
+        android:width="64dp"
+        android:height="64dp" />
+</shape>

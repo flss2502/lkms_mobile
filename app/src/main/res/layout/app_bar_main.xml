@@ -6,7 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include layout="@layout/content_main" />
+    <!-- Thanh AppBar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="4dp">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingHorizontal="12dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <!-- Biểu tượng menu -->
+            <ImageButton
+                android:id="@+id/btnMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/menu"
+                android:contentDescription="Menu"
+                android:layout_gravity="start|center_vertical"/>
+
+
+            <ImageButton
+                android:id="@+id/searchView"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/transparent"
+
+                android:src="@drawable/search_24px"/>
+
+<!--            &lt;!&ndash; Nút Tạo mới &ndash;&gt;-->
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/btnCreateNew"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="36dp"-->
+<!--                android:text="Tạo mới"-->
+<!--                app:icon="@drawable/add"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                app:cornerRadius="18dp"-->
+<!--                app:backgroundTint="@color/purple_700" />-->
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Nội dung chính -->
+    <include layout="@layout/content_main" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

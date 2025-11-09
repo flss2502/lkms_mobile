@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_mix"
+    android:padding="8dp"
+    tools:context=".ui.labnote.LabNoteFragment">
+
+    <TextView
+        android:id="@+id/text_experiment_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:padding="16dp"
+        android:background="?attr/colorSurface"
+        android:elevation="4dp"
+        tools:text="Thí nghiệm: Phân tích Protein" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_lab_notes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/list_item_lab_note"
+        tools:itemCount="1"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    <!-- Thanh công cụ định dạng -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="6dp"
+        android:clipToPadding="false"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="2dp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#FFFFFF">
+
+        <LinearLayout
+            android:id="@+id/toolbarLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUndo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.Material3.Button.Icon"
+                app:icon="@drawable/undo"
+                app:iconTint="@color/black"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="Undo" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRedo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.Material3.Button.Icon"
+                app:icon="@drawable/redo_24px"
+                app:iconTint="@color/black"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="Redo" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBold"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.Material3.Button.Icon"
+                app:icon="@drawable/format_bold_24px"
+                app:iconTint="@color/black"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="Bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnItalic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.Material3.Button.Icon"
+                app:icon="@drawable/format_italic_24px"
+                app:iconTint="@color/black"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="Italic" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUnderline"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.Material3.Button.Icon"
+                app:icon="@drawable/format_underlined_24px"
+                app:iconTint="@color/black"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="Underline" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHeading"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.Material3.Button.Icon"
+                app:icon="@drawable/format_size_24px"
+                app:iconTint="@color/black"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="Heading" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBullets"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                style="@style/Widget.Material3.Button.Icon"
+                app:icon="@drawable/format_list_bulleted_24px"
+                app:iconTint="@color/black"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="Bullets" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLink"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.Material3.Button.Icon"
+                app:icon="@drawable/add_link_24px"
+                app:iconTint="@color/black"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="Link" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.Material3.Button.Icon"
+                app:icon="@drawable/photo_24px"
+                app:iconTint="@color/black"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="Image" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EEE" />
+
+            <jp.wasabeef.richeditor.RichEditor
+                android:id="@+id/editor"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="8dp"
+                android:padding="12dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lưu ghi chú mới"
+                android:layout_margin="8dp"
+                app:icon="@drawable/save_24px" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

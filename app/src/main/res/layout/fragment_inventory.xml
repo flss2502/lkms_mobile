@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_mix"
+    tools:context=".ui.inventory.InventoryFragment">
+
+    <!-- Thanh tìm kiếm (Tùy chọn nhưng rất hữu ích) -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view_inventory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/shape_rounded_corners"
+        app:iconifiedByDefault="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="Tìm kiếm vật tư..." />
+
+    <!-- Danh sách hiển thị vật tư -->
+
+    <!-- Tin nhắn hiển thị khi danh sách trống -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_inventory"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="80dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view_inventory"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/list_item_inventory" />
+
+    <TextView
+        android:id="@+id/text_empty_inventory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chưa có vật tư nào.\nNhấn dấu + để thêm mới."
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/empty_box"
+        android:drawablePadding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view_inventory"
+        tools:visibility="visible" />
+
+    <!-- Nút Thêm mới Vật tư (Floating Action Button) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_inventory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="Thêm vật tư mới"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/add_product" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

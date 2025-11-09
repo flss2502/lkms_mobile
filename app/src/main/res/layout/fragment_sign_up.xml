@@ -12,7 +12,7 @@
         android:id="@+id/header_container"
         android:layout_width="match_parent"
         android:layout_height="397dp"
-        android:background="#2567E8"
+        android:background="@drawable/bg_mix"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

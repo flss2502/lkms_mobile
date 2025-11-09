@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_mix"
+    tools:context=".ui.booking.BookingFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface">
+
+        <!-- Lịch (Calendar) -->
+        <CalendarView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.Material3.MaterialCalendar"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Danh sách các lịch đặt -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_bookings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/list_item_booking_full" />
+
+    <!-- Tin nhắn trống -->
+    <TextView
+        android:id="@+id/text_empty_bookings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Không có lịch đặt nào cho ngày này"
+        android:visibility="gone"
+        app:layout_anchor="@id/recycler_view_bookings"
+        app:layout_anchorGravity="center"
+        tools:visibility="visible"/>
+
+    <!-- Nút FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_booking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/calendar_add_on_24px"
+        android:contentDescription="Đặt lịch mới" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
