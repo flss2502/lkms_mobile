@@ -1,99 +1,123 @@
 package com.example.lkms.ui.signup;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.util.Log;
 import android.util.Patterns;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.lkms.R;
-import com.example.lkms.ui.login.LoggedInUserView; // Tái sử dụng
+import com.example.lkms.data.DatabaseHelper;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUpViewModel extends ViewModel {
 
-    // Giống như loginFormState trong LoginViewModel
-    private MutableLiveData<SignUpFormState> signUpFormState = new MutableLiveData<>();
+    private final MutableLiveData<SignUpFormState> signUpFormState = new MutableLiveData<>();
+    private final MutableLiveData<SignUpResult> signUpResult = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    // Giống như loginResult trong LoginViewModel
-    private MutableLiveData<SignUpResult> signUpResult = new MutableLiveData<>();
+    private final FirebaseAuth mAuth;
+    private final DatabaseHelper dbHelper;
 
-    // Thêm LiveData cho trạng thái loading
-    private final MutableLiveData<Boolean> _isLoading = new MutableLiveData<>(false);
-    public LiveData<Boolean> isLoading = _isLoading;
-
-
-    // Getter cho LiveData
-    LiveData<SignUpFormState> getSignUpFormState() {
-        return signUpFormState;
+    // Nhận mAuth và dbHelper từ Factory
+    SignUpViewModel(FirebaseAuth mAuth, DatabaseHelper dbHelper) {
+        this.mAuth = mAuth;
+        this.dbHelper = dbHelper;
     }
 
-    LiveData<SignUpResult> getSignUpResult() {
-        return signUpResult;
-    }
-
+    // LiveData (cho Fragment quan sát)
+    LiveData<SignUpFormState> getSignUpFormState() { return signUpFormState; }
+    LiveData<SignUpResult> getSignUpResult() { return signUpResult; }
+    LiveData<Boolean> isLoading() { return isLoading; }
 
     /**
-     * Phương thức này được gọi từ Fragment khi người dùng nhấn nút "Sign Up"
-     * (Tương tự phương thức login() trong LoginViewModel)
+     * Hàm được gọi bởi Fragment khi nhấn nút Đăng ký
      */
-    public void signUp(String firstName, String lastName, String email, String password, String confirmPassword) {
-        // Kiểm tra xác thực lần cuối trước khi gọi API
-        if (!isFormValid(firstName, lastName, email, password, confirmPassword)) {
-            signUpResult.setValue(new SignUpResult(R.string.invalid_signup_form));
-            return;
-        }
+    public void signUp(String firstName, String lastName, String email, String password) {
 
-        _isLoading.setValue(true);
+        // 1. Bắt đầu tải (hiện ProgressBar)
+        isLoading.setValue(true);
 
-        // Mô phỏng cuộc gọi mạng (tương tự logic cũ)
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            _isLoading.setValue(false);
+        String fullName = firstName + " " + lastName;
 
-            // Giả sử đăng ký thành công
-            LoggedInUserView fakeUser = new LoggedInUserView(java.util.UUID.randomUUID().toString(), firstName + " " + lastName);
-            signUpResult.setValue(new SignUpResult(fakeUser));
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
 
-            // --- HOẶC ---
-            // Giả sử đăng ký thất bại (ví dụ: email đã tồn tại)
-            // signUpResult.setValue(new SignUpResult(R.string.signup_failed_email_exists));
+                            // 2. Cập nhật Tên (DisplayName) trên Firebase
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(fullName)
+                                    .build();
+                            user.updateProfile(profileUpdates);
 
-        }, 2000); // Giả lập 2 giây chờ mạng
+                            // 3. Gửi email xác thực
+                            user.sendEmailVerification()
+                                    .addOnCompleteListener(emailTask -> {
+                                        if (!emailTask.isSuccessful()) {
+                                            // (Gửi email thất bại, nhưng đăng ký vẫn thành công)
+                                            Log.w("SignUpViewModel", "Không thể gửi email xác thực.", emailTask.getException());
+                                        }
+                                    });
+
+                            // 4. LƯU VÀO CSDL SQLITE (Quan trọng)
+                            // Gán vai trò (role) mặc định là "Researcher"
+                            dbHelper.insertOrUpdateUser(user.getUid(), fullName, email, "Researcher");
+
+                            // 5. Gửi kết quả thành công
+                            isLoading.setValue(false);
+                            signUpResult.setValue(new SignUpResult(user));
+
+                        } else {
+                            // (Lỗi hiếm gặp)
+                            isLoading.setValue(false);
+                            signUpResult.setValue(new SignUpResult(R.string.signup_failed));
+                        }
+                    } else {
+                        // 6. Gửi kết quả thất bại
+                        isLoading.setValue(false);
+                        // (Bạn có thể thêm logic để dịch lỗi của Firebase sang R.string)
+                        signUpResult.setValue(new SignUpResult(R.string.signup_failed));
+                    }
+                });
     }
 
     /**
-     * Được gọi mỗi khi văn bản trong bất kỳ EditText nào thay đổi
-     * (Tương tự phương thức loginDataChanged() trong LoginViewModel)
+     * Hàm được gọi mỗi khi người dùng gõ phím (để validate)
      */
     public void signUpDataChanged(String firstName, String lastName, String email, String password, String confirmPassword) {
-        Integer fnError = isNameValid(firstName) ? null : R.string.invalid_first_name;
-        Integer lnError = isNameValid(lastName) ? null : R.string.invalid_last_name;
-        Integer emailError = isEmailValid(email) ? null : R.string.invalid_username;
-        Integer passError = isPasswordValid(password) ? null : R.string.invalid_password;
-        Integer confirmPassError = password.equals(confirmPassword) ? null : R.string.invalid_confirm_password;
-
-        if (fnError != null || lnError != null || emailError != null || passError != null || confirmPassError != null) {
-            signUpFormState.setValue(new SignUpFormState(fnError, lnError, emailError, passError, confirmPassError));
+        if (!isFirstNameValid(firstName)) {
+            signUpFormState.setValue(new SignUpFormState(R.string.invalid_first_name, null, null, null, null));
+        } else if (!isLastNameValid(lastName)) {
+            signUpFormState.setValue(new SignUpFormState(null, R.string.invalid_last_name, null, null, null));
+        } else if (!isEmailValid(email)) {
+            signUpFormState.setValue(new SignUpFormState(null, null, R.string.invalid_username, null, null));
+        } else if (!isPasswordValid(password)) {
+            signUpFormState.setValue(new SignUpFormState(null, null, null, R.string.invalid_password, null));
+        } else if (!isConfirmPasswordValid(password, confirmPassword)) {
+            signUpFormState.setValue(new SignUpFormState(null, null, null, null, R.string.invalid_confirm_password));
         } else {
-            signUpFormState.setValue(new SignUpFormState(true));
+            signUpFormState.setValue(new SignUpFormState(true)); // Dữ liệu hợp lệ
         }
     }
 
-    private boolean isFormValid(String fn, String ln, String e, String p, String cp) {
-        return isNameValid(fn) && isNameValid(ln) && isEmailValid(e) && isPasswordValid(p) && p.equals(cp);
+    // --- Các hàm kiểm tra (Validation Helpers) ---
+    private boolean isFirstNameValid(String firstName) {
+        return firstName != null && firstName.trim().length() > 1;
     }
-
-    // Các hàm kiểm tra xác thực
-    private boolean isNameValid(String name) {
-        return name != null && !name.trim().isEmpty();
+    private boolean isLastNameValid(String lastName) {
+        return lastName != null && lastName.trim().length() > 1;
     }
-
     private boolean isEmailValid(String email) {
-        return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        if (email == null) return false;
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+        return password != null && password.trim().length() > 5; // (Mật khẩu phải > 5 ký tự)
+    }
+    private boolean isConfirmPasswordValid(String password, String confirmPassword) {
+        return password.equals(confirmPassword);
     }
 }

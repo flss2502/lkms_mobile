@@ -22,10 +22,6 @@
             android:icon="@drawable/inventory_2_24px"
             android:title="@string/menu_inventory" />
 
-        <item
-            android:id="@+id/nav_labnote"
-            android:icon="@drawable/note_alt_24px"
-            android:title="@string/menu_notebook" />
 
         <item
             android:id="@+id/nav_booking"

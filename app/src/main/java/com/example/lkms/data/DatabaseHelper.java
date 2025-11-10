@@ -24,10 +24,8 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "lkms.db";
-    // Phiên bản 7 (Thêm Bảng Đặt chỗ)
     private static final int DATABASE_VERSION = 7;
 
-    // ===== BẢNG USERS =====
     public static final String TABLE_USERS = "users";
     public static final String COLUMN_USER_ID = "uid";
     public static final String COLUMN_USER_NAME = "username";
@@ -197,6 +195,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USER_EMAIL, email);
         values.put(COLUMN_USER_ROLE, role);
         db.insertWithOnConflict(TABLE_USERS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
+    public String getUserName(String uid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_USER_NAME + " FROM " + TABLE_USERS + " WHERE " + COLUMN_USER_ID + "=?", new String[]{uid});
+        String name = null;
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(0);
+        }
+        cursor.close();
+        return name;
     }
 
     public String getUserRole(String uid) {

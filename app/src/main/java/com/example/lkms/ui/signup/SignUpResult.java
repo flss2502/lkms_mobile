@@ -1,14 +1,14 @@
 package com.example.lkms.ui.signup;
 
 import androidx.annotation.Nullable;
-import com.example.lkms.ui.login.LoggedInUserView; // Tái sử dụng LoggedInUserView
+import com.google.firebase.auth.FirebaseUser;
 
 /**
- * Authentication result : success (user details) or error message.
+ * Kết quả: Hoặc là thành công (FirebaseUser) hoặc là thất bại (Integer báo lỗi)
  */
 class SignUpResult {
     @Nullable
-    private LoggedInUserView success;
+    private FirebaseUser success;
     @Nullable
     private Integer error;
 
@@ -16,12 +16,12 @@ class SignUpResult {
         this.error = error;
     }
 
-    SignUpResult(@Nullable LoggedInUserView success) {
+    SignUpResult(@Nullable FirebaseUser success) {
         this.success = success;
     }
 
     @Nullable
-    LoggedInUserView getSuccess() {
+    FirebaseUser getSuccess() {
         return success;
     }
 

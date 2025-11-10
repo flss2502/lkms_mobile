@@ -1,4 +1,4 @@
-package com.example.lkms.ui.myexperiment;
+package com.example.lkms.ui.myexperiment; // (Hoặc package ui.notebook)
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -17,15 +17,20 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.lkms.R;
 import com.example.lkms.data.models.Experiment;
+// (Sửa các import này nếu package của bạn là ui.notebook)
+import com.example.lkms.ui.myexperiment.ExperimentViewModelFactory;
+import com.example.lkms.ui.myexperiment.NotebookViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AddEditExperimentDialogFragment extends DialogFragment {
 
     private static final String ARG_ITEM = "experiment_item";
 
-    private NotebookViewModel viewModel;
+    private NotebookViewModel viewModel; // Đây là Shared ViewModel
     private Experiment currentExperiment;
     private boolean isEditMode = false;
 
@@ -50,8 +55,19 @@ public class AddEditExperimentDialogFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Lấy ViewModel từ Activity (để chia sẻ với Fragment)
-        viewModel = new ViewModelProvider(requireActivity()).get(NotebookViewModel.class);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = (user != null) ? user.getUid() : "guest";
+
+        // 1. Tạo Factory (Đã đúng)
+        ExperimentViewModelFactory factory = new ExperimentViewModelFactory(
+                requireActivity().getApplication(),
+                uid
+        );
+
+        // ===== SỬA LỖI Ở ĐÂY =====
+        // 2. Dùng Factory khi gọi ViewModel (bạn đã thiếu "factory" ở đây)
+        viewModel = new ViewModelProvider(requireActivity(), factory).get(NotebookViewModel.class);
+        // ========================
 
         if (getArguments() != null && getArguments().containsKey(ARG_ITEM)) {
             currentExperiment = (Experiment) getArguments().getSerializable(ARG_ITEM);
@@ -134,12 +150,12 @@ public class AddEditExperimentDialogFragment extends DialogFragment {
             currentExperiment.setName(name);
             currentExperiment.setStatus(status);
             currentExperiment.setDueDate(dueDate);
-            viewModel.update(currentExperiment);
+            viewModel.update(currentExperiment); // <-- Gọi ViewModel Chung
             Toast.makeText(getContext(), "Đã cập nhật", Toast.LENGTH_SHORT).show();
         } else {
             // Thêm mới
             Experiment newExperiment = new Experiment(name, status, dueDate);
-            viewModel.insert(newExperiment);
+            viewModel.insert(newExperiment); // <-- Gọi ViewModel Chung
             Toast.makeText(getContext(), "Đã tạo thí nghiệm", Toast.LENGTH_SHORT).show();
         }
 

@@ -3,7 +3,7 @@ package com.example.lkms.ui.signup;
 import androidx.annotation.Nullable;
 
 /**
- * Data validation state of the sign up form.
+ * Trạng thái của Form (dữ liệu có hợp lệ hay không)
  */
 class SignUpFormState {
     @Nullable
@@ -16,7 +16,6 @@ class SignUpFormState {
     private Integer passwordError;
     @Nullable
     private Integer confirmPasswordError;
-
     private boolean isDataValid;
 
     SignUpFormState(boolean isDataValid) {
@@ -38,31 +37,14 @@ class SignUpFormState {
     }
 
     @Nullable
-    Integer getFirstNameError() {
-        return firstNameError;
-    }
-
+    Integer getFirstNameError() { return firstNameError; }
     @Nullable
-    Integer getLastNameError() {
-        return lastNameError;
-    }
-
+    Integer getLastNameError() { return lastNameError; }
     @Nullable
-    Integer getEmailError() {
-        return emailError;
-    }
-
+    Integer getEmailError() { return emailError; }
     @Nullable
-    Integer getPasswordError() {
-        return passwordError;
-    }
-
+    Integer getPasswordError() { return passwordError; }
     @Nullable
-    Integer getConfirmPasswordError() {
-        return confirmPasswordError;
-    }
-
-    boolean isDataValid() {
-        return isDataValid;
-    }
+    Integer getConfirmPasswordError() { return confirmPasswordError; }
+    boolean isDataValid() { return isDataValid; }
 }

@@ -20,6 +20,8 @@ public class NotebookViewModel extends AndroidViewModel {
     private final MutableLiveData<String> searchQuery = new MutableLiveData<>("");
     private final MediatorLiveData<List<Experiment>> filteredExperiments = new MediatorLiveData<>();
 
+    private final MutableLiveData<Experiment> selectedExperiment = new MutableLiveData<>();
+
     // Constructor nhận UID (từ Factory)
     public NotebookViewModel(@NonNull Application application, @NonNull String uid) {
         super(application);
@@ -27,11 +29,13 @@ public class NotebookViewModel extends AndroidViewModel {
         allExperiments = repository.getAllExperiments();
 
         // Logic lọc (y hệt InventoryViewModel)
-        filteredExperiments.addSource(allExperiments, experiments ->
-                filterList(experiments, searchQuery.getValue()));
+        filteredExperiments.addSource(allExperiments, experiments -> {
+            filterList(experiments, searchQuery.getValue());
+        });
 
-        filteredExperiments.addSource(searchQuery, query ->
-                filterList(allExperiments.getValue(), query));
+        filteredExperiments.addSource(searchQuery, query -> {
+            filterList(allExperiments.getValue(), query);
+        });
     }
 
     private void filterList(List<Experiment> experiments, String query) {
